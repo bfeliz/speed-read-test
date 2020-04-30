@@ -1,29 +1,38 @@
+// text for reading test
 const text =
     "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversation?' So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her. There was nothing so VERY remarkable in that; nor did Alice think it so VERY much out of the way to hear the Rabbit say to itself, 'Oh dear! Oh dear! I shall be late!' (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually TOOK";
 
+// split text into array
 const words = text.split(" ");
-const countdown = document.querySelector(".countdown");
-const display = document.querySelector(".text");
 
+// declare starting variables
+const display = document.querySelector(".text");
+const startBtn = document.querySelector("#start");
+const stopBtn = document.querySelector("#stop");
 let timers = [];
 let timer = 5;
 let i = 0;
 let stop = false;
 
+// runs on click of start button, starts reading test countdown
 function prepareRead() {
+    // start and later stop beginning countdown timer
     const timerInterval = setInterval(function () {
         timer--;
-        countdown.textContent = timer + " seconds left";
+        display.textContent = timer + " seconds left";
 
         if (timer === 0) {
-            countdown.textContent = " ";
             clearInterval(timerInterval);
             speedRead();
+            stopBtn.disabled = false;
         }
     }, 1000);
 }
 
+// calculate and display final score on click of stop button
 function finalScore() {
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
     switch (true) {
         case i > 0 && i <= 15:
             display.textContent = "Your final score is: 60 words per minute ";
@@ -54,15 +63,17 @@ function finalScore() {
     stop = true;
 }
 
+// start button
 function beginAgain() {
-    display.textContent = " ";
-    countdown.textContent = "5 seconds left";
+    startBtn.disabled = true;
+    display.textContent = "5 seconds left";
     timer = 5;
     i = 0;
     stop = false;
     prepareRead();
 }
 
+// reading test with gradual increase of word display speed
 function speedRead() {
     // 60 wpm
     const timeOne = setInterval(function () {
@@ -209,5 +220,3 @@ function speedRead() {
         }
     }, 1000);
 }
-
-prepareRead();

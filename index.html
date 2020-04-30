@@ -5,15 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speed Read Test</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <h1 class="countdown">5 seconds left</h1>
-    <h3 class="text"></h3>
-    <button onclick="finalScore()">STOP</button>
-    <button onclick="beginAgain()">Start Over</button>
+    <header>
+        <h1>Ready to test your reading speed?</h1>
+        <h3>Once you click start, text will start to flash across the screen and slowly increase in speed. Click the
+            stop button as soon as you feel it has gotten too fast, and find out your speed!</h3>
+    </header>
+    <div class="box">
+        <p class="text"></p>
+    </div>
+    <div class="buttons">
+        <button id="start" onclick="beginAgain()">START</button>
+        <button id="stop" onclick="finalScore()" disabled>STOP</button>
+    </div>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

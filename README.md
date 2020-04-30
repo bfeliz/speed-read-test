@@ -2,13 +2,13 @@
 
 ## Description
 
-A fun little application to test how fast you can read. Text will start to flash accross the screen and slowly increase in speed. Click the stop button as soon as you feel it has gotten too fast, and find out how fast you were reading!
+A fun little application to test how fast you can read. Text will start to flash accross the screen and slowly increase in speed. Click the stop button as soon as you feel it has gotten too fast, and find out your speed!
 
 ## [Try it yourself!](https://bfeliz.github.io/speed-read-test/)
 
 The following image shows a glimpse of the application:
 
-![speed read test]()
+![speed read test](assets/image.png)
 
 ## Getting Started
 
