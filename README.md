@@ -6,6 +6,10 @@ A fun little application to test how fast you can read. Text will start to flash
 
 ## [Try it yourself!](https://bfeliz.github.io/speed-read-test/)
 
+The following image shows a glimpse of the application:
+
+![speed read test](assets/image.png)
+
 ## Getting Started
 
 This is a simple application that runs right in the browser, no installation or downloads needed.
