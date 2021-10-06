@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Speed Read Test</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel='stylesheet' href='css/style.css'>
 </head>
 
 <body>
@@ -14,15 +14,15 @@
         <h3>Once you click start, text will start to flash across the screen and slowly increase in speed. Click the
             stop button as soon as you feel it has gotten too fast, and find out your speed!</h3>
     </header>
-    <div class="box">
-        <p class="text"></p>
-    </div>
-    <div class="buttons">
-        <button id="start" onclick="beginAgain()">START</button>
-        <button id="stop" onclick="finalScore()" disabled>STOP</button>
-    </div>
+    <section class='box'>
+        <p class='text'></p>
+    </section>
+    <section class='buttons'>
+        <button id='start' onclick='startGame()'>START</button>
+        <button id='stop' onclick='endGame()' disabled>STOP</button>
+    </section>
 
-    <script src="js/script.js"></script>
+    <script src='js/script.js'></script>
 </body>
 
 </html>

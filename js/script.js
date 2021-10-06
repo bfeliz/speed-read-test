@@ -1,25 +1,30 @@
 // text for reading test
 const text =
-    "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversation?' So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her. There was nothing so VERY remarkable in that; nor did Alice think it so VERY much out of the way to hear the Rabbit say to itself, 'Oh dear! Oh dear! I shall be late!' (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually TOOK";
+    "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversation?' So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her. There was nothing so VERY remarkable in that; nor did Alice think it so VERY much out of the way to hear the Rabbit say to itself, 'Oh dear! Oh dear! count shall be late!' (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually TOOK";
 
 // split text into array
-const words = text.split(" ");
+const words = text.split(' ');
 
 // declare starting variables
-const display = document.querySelector(".text");
-const startBtn = document.querySelector("#start");
-const stopBtn = document.querySelector("#stop");
-let timers = [];
-let timer = 5;
-let i = 0;
-let stop = false;
+const display = document.querySelector('.text');
+const startBtn = document.querySelector('#start');
+const stopBtn = document.querySelector('#stop');
+let stopGame = false;
+let count = 0;
+let finalScore = '';
 
-// runs on click of start button, starts reading test countdown
-function prepareRead() {
-    // start and later stop beginning countdown timer
+// start button
+const startGame = () => {
+    startBtn.disabled = true;
+    display.textContent = '5 seconds left';
+    count = 0;
+    stopGame = false;
+
+    let timer = 5;
+    // start and stop beginning countdown timer
     const timerInterval = setInterval(function () {
         timer--;
-        display.textContent = timer + " seconds left";
+        display.textContent = timer + ' seconds left';
 
         if (timer === 0) {
             clearInterval(timerInterval);
@@ -27,196 +32,68 @@ function prepareRead() {
             stopBtn.disabled = false;
         }
     }, 1000);
+};
+
+// display words on screen by setting a timeout
+const speedRead = () => {
+    if (!stopGame) {
+        displayWord();
+
+        // get latest speed based on current count
+        const speed = getSpeed(count);
+        setTimeout(speedRead, speed);
+    } else {
+        endGame();
+    }
+};
+
+// set word speed and score text
+function getSpeed(count) {
+    switch (true) {
+        case count >= 180:
+            stopGame = true;
+            return 1000;
+        case count > 0 && count <= 5:
+            finalScore = 'Your final score is around 60 words per minute';
+            return 1000;
+        case count > 5 && count <= 15:
+            finalScore = 'Your final score is around 60 words per minute';
+            return 500;
+        case count > 15 && count <= 30:
+            finalScore = 'Your final score is around 120 words per minute ';
+            return 375;
+        case count > 30 && count <= 50:
+            finalScore = 'Your final score is around 160 words per minute ';
+            return 250;
+        case count > 50 && count <= 75:
+            finalScore = 'Your final score is around 240 words per minute ';
+            return 187.5;
+        case count > 75 && count <= 105:
+            finalScore = 'Your final score is around 320 words per minute ';
+            return 125;
+        case count > 105 && count <= 140:
+            finalScore = 'Your final score is around 480 words per minute ';
+            return 93.75;
+        case count > 140 && count <= 178:
+            finalScore = 'Your final score is around 640 words per minute ';
+            return 62.5;
+        case count >= 179:
+            finalScore =
+                'You aced the test! Your final score is around 960 words per minute ';
+            return 62.5;
+    }
 }
 
-// calculate and display final score on click of stop button
-function finalScore() {
+// display current word for reading test
+function displayWord() {
+    display.textContent = words[count];
+    count++;
+}
+
+// end the game
+const endGame = () => {
+    stopGame = true;
     startBtn.disabled = false;
     stopBtn.disabled = true;
-    switch (true) {
-        case i > 0 && i <= 15:
-            display.textContent = "Your final score is: 60 words per minute ";
-            break;
-        case i > 15 && i <= 30:
-            display.textContent = "Your final score is: 120 words per minute ";
-            break;
-        case i > 30 && i <= 50:
-            display.textContent = "Your final score is: 160 words per minute ";
-            break;
-        case i > 50 && i <= 75:
-            display.textContent = "Your final score is: 240 words per minute ";
-            break;
-        case i > 75 && i <= 105:
-            display.textContent = "Your final score is: 320 words per minute ";
-            break;
-        case i > 105 && i <= 140:
-            display.textContent = "Your final score is: 480 words per minute ";
-            break;
-        case i > 140 && i <= 179:
-            display.textContent = "Your final score is: 640 words per minute ";
-            break;
-        case i === 180:
-            display.textContent =
-                "You aced the test! Your final score is: 960 words per minute ";
-            break;
-    }
-    stop = true;
-}
-
-// start button
-function beginAgain() {
-    startBtn.disabled = true;
-    display.textContent = "5 seconds left";
-    timer = 5;
-    i = 0;
-    stop = false;
-    prepareRead();
-}
-
-// reading test with gradual increase of word display speed
-function speedRead() {
-    // 60 wpm
-    const timeOne = setInterval(function () {
-        if (i === 5) {
-            clearInterval(timeOne);
-            // 120 wpm
-            const timeTwo = setInterval(function () {
-                if (i === 15) {
-                    clearInterval(timeTwo);
-                    // 160 wpm
-                    const timeThree = setInterval(function () {
-                        if (i === 30) {
-                            clearInterval(timeThree);
-                            // 240 wpm
-                            const timeFour = setInterval(function () {
-                                if (i === 50) {
-                                    clearInterval(timeFour);
-                                    // 320 wpm
-                                    const timeFive = setInterval(function () {
-                                        if (i === 75) {
-                                            clearInterval(timeFive);
-                                            // 480 wpm
-                                            const timeSix = setInterval(
-                                                function () {
-                                                    if (i === 105) {
-                                                        clearInterval(timeSix);
-                                                        // 640 wpm
-                                                        const timeSeven = setInterval(
-                                                            function () {
-                                                                if (i === 140) {
-                                                                    clearInterval(
-                                                                        timeSeven
-                                                                    );
-                                                                    // 960 wpm
-                                                                    const timeEight = setInterval(
-                                                                        function () {
-                                                                            if (
-                                                                                i ===
-                                                                                180
-                                                                            ) {
-                                                                                clearInterval(
-                                                                                    timeEight
-                                                                                );
-                                                                                finalScore();
-                                                                            } else if (
-                                                                                stop ===
-                                                                                true
-                                                                            ) {
-                                                                                clearInterval(
-                                                                                    timeEight
-                                                                                );
-                                                                            } else {
-                                                                                if (
-                                                                                    stop ===
-                                                                                    false
-                                                                                ) {
-                                                                                    display.textContent =
-                                                                                        words[
-                                                                                            i
-                                                                                        ];
-                                                                                    i++;
-                                                                                }
-                                                                            }
-                                                                        },
-                                                                        62.5
-                                                                    );
-                                                                } else if (
-                                                                    stop ===
-                                                                    true
-                                                                ) {
-                                                                    clearInterval(
-                                                                        timeSeven
-                                                                    );
-                                                                } else {
-                                                                    if (
-                                                                        stop ===
-                                                                        false
-                                                                    ) {
-                                                                        display.textContent =
-                                                                            words[
-                                                                                i
-                                                                            ];
-                                                                        i++;
-                                                                    }
-                                                                }
-                                                            },
-                                                            93.75
-                                                        );
-                                                    } else if (stop === true) {
-                                                        clearInterval(timeSix);
-                                                    } else {
-                                                        if (stop === false) {
-                                                            display.textContent =
-                                                                words[i];
-                                                            i++;
-                                                        }
-                                                    }
-                                                },
-                                                125
-                                            );
-                                        } else if (stop === true) {
-                                            clearInterval(timeFive);
-                                        } else {
-                                            if (stop === false) {
-                                                display.textContent = words[i];
-                                                i++;
-                                            }
-                                        }
-                                    }, 187.5);
-                                } else if (stop === true) {
-                                    clearInterval(timeFour);
-                                } else {
-                                    if (stop === false) {
-                                        display.textContent = words[i];
-                                        i++;
-                                    }
-                                }
-                            }, 250);
-                        } else if (stop === true) {
-                            clearInterval(timeThree);
-                        } else {
-                            if (stop === false) {
-                                display.textContent = words[i];
-                                i++;
-                            }
-                        }
-                    }, 375);
-                } else if (stop === true) {
-                    clearInterval(timeTwo);
-                } else {
-                    if (stop === false) {
-                        display.textContent = words[i];
-                        i++;
-                    }
-                }
-            }, 500);
-        } else if (stop === true) {
-            clearInterval(timeOne);
-        } else {
-            if (stop === false) {
-                display.textContent = words[i];
-                i++;
-            }
-        }
-    }, 1000);
-}
+    display.textContent = finalScore;
+};
